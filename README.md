@@ -1,21 +1,55 @@
 [![Rust](https://github.com/jlcanela/rust-devops-azure-sample/actions/workflows/rust.yml/badge.svg)](https://github.com/jlcanela/rust-devops-azure-sample/actions/workflows/rust.yml)
 
-# Install
+# Install 'just'
 
+Install 'just': 
 ```
 cargo install just
 ```
 
+List commands:
+```
+just -l
+```
+
 # Start the App
 
+Run locally:
 ```
 just run
 ```
 
 # Test the App 
 
+Run Clippy: 
 ```
-just test
+just lint
 ```
 
-Note: This command only run clippy. 
+Create a user with curl:
+```
+# just test
+curl -v -X POST -H "Content-Type: application/json" -d '{"username":"jlc","password":"pass"}' http://localhost:8080/user
+```
+
+# Build & Run Docker Image
+
+Build 'latest':
+```
+# just build-docker
+docker build -t rust-devops-azure-sample:latest .
+```
+
+Run docker:
+```
+# just run-docker
+docker run --env-file .env -p 8080:8080 rust-devops-azure-sample:latest
+```
+
+# Check docker vulnerabilities
+
+List vulnerabilities:
+```
+# just security
+docker scout cves local://rust-devops-azure-sample:latest
+```

@@ -15,3 +15,5 @@ just run
 ```
 just test
 ```
+
+Note: This command only run clippy. 

@@ -50,8 +50,6 @@ struct Article {
 #[post("/user")]
 async fn create_user(state: Data<AppState>, body: Json<CreateUserBody>) -> impl Responder {
     let user = body.into_inner();
-
-    println!("create_user");
     
     let hash_secret = std::env::var("HASH_SECRET").expect("HASH_SECRET must be set!");
     let mut hasher = Hasher::default();

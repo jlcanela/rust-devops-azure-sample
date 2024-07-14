@@ -42,11 +42,8 @@ jobs:
             console.log('refs:', refs);
             console.log(`Existing tags: ${refs.map(ref => ref.ref.replace('refs/tags/', '')).join(', ')}`);
 
-            console.log('A');
-            const latestTag = refs.sort((a, b) => new Date(b.object.date) - new Date(a.object.date))[0].ref.replace('refs/tags/', '');
-            console.log('B');
+            const latestTag = refs.length == 0 ? '0.0.0' : refs.sort((a, b) => new Date(b.object.date) - new Date(a.object.date))[0].ref.replace('refs/tags/', '');
             console.log(`Latest tag: ${latestTag}`);
-            console.log('C');
 
             const latestVersion = latestTag.replace('v', '').split('.').map(Number);
             const newVersion = newTag.replace('v', '').split('.').map(Number);

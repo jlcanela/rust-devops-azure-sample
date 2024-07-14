@@ -1,6 +1,9 @@
 # Build stage
 #FROM rust:1.77-alpine3.18 as builder
 FROM rust:alpine as builder
+LABEL org.opencontainers.image.source https://github.com/jlcanela/rust-devops-azure-sample
+LABEL org.opencontainers.image.description="A sample Rust Web Application"
+LABEL org.opencontainers.image.licenses=MIT
 
 # Install build dependencies
 RUN apk add --no-cache \

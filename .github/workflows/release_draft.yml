@@ -82,9 +82,45 @@ jobs:
             console.log(`Tag created: ${tag}`);
           github-token: ${{ secrets.GITHUB_TOKEN }}
           tag-name: ${{ github.event.inputs.tagName }}
-
-  dockerpush:
+   
+  release:
     needs: tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: refs/tags/${{ github.event.inputs.tagName }}
+
+      - name: Generate release notes
+        id: generate_release_notes
+        uses: AbsaOSS/generate-release-notes@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag-name: ${{ github.event.inputs.tagName }}
+          chapters: |
+            [
+              {"title": "Breaking Changes 💥", "label": "breaking-change"},
+              {"title": "New Features 🎉", "label": "feature"},
+              {"title": "New Features 🎉", "label": "enhancement"},
+              {"title": "Bugfixes 🛠", "label": "bug"}
+            ]
+          warnings: true
+
+      - name: Create draft release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: ${{ github.event.inputs.tagName }}
+          body: ${{ steps.generate_release_notes.outputs.releaseNotes }}
+          tag_name: ${{ github.event.inputs.tagName }}
+          draft: true
+          prerelease: false
+
+  docker_push: 
+    needs: release
     runs-on: ubuntu-latest
     steps:
       # Workaround: https://github.com/docker/build-push-action/issues/461

@@ -15,6 +15,11 @@ test:
 build-docker:
     docker build -t rust-devops-azure-sample:latest .
 
+# Push Image to ghcr.io (requires login)
+push-docker:
+    docker tag rust-devops-azure-sample:latest ghcr.io/jlcanela/rust-devops-azure-sample:0.0.1
+    docker push ghcr.io/jlcanela/rust-devops-azure-sample:0.0.1
+
 # Run webapp with docker
 run-docker:
     docker run --env-file .env -p 8080:8080 rust-devops-azure-sample:latest

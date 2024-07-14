@@ -11,9 +11,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Build project
-        run: |
-            cargo build --release
+    #   - name: Build project
+    #     run: |
+    #         cargo build --release
       - name: Generate Release Notes
         uses: AbsaOSS/generate-release-notes@0.1.0
         env:

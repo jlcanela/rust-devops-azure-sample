@@ -25,6 +25,6 @@ jobs:
         containerAppName: rust-sample-app
         resourceGroup: default-rg
         registryUrl: ghcr.io
-        registryUsername: ${{ github.actor }}
-        registryPassword: ${{ secrets.GITHUB_TOKEN }}
+        #registryUsername: ${{ github.actor }}
+        #registryPassword: ${{ secrets.GITHUB_TOKEN }}
         

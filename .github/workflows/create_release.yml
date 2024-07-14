@@ -8,7 +8,7 @@ on:
 permissions:
   contents: read
   pull-requests: read
-  
+
 jobs:
   create_release:
     runs-on: ubuntu-latest
@@ -24,13 +24,14 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
             tag-name: ${{ github.ref }}
-            previous-tag: "HEAD~8"
             chapters: '[
                 {"title": "Breaking Changes 💥", "label": "breaking-change"},
                 {"title": "New Features 🎉", "label": "enhancement"},
                 {"title": "New Features 🎉", "label": "feature"},
                 {"title": "Bugfixes 🛠", "label": "bug"}
                 ]'
+            published-at: true
+            skip-release-notes-label: 'skip-release-notes'
       - name: Release
         uses: softprops/action-gh-release@v2
     #  - name: Create Release

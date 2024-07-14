@@ -53,3 +53,9 @@ List vulnerabilities:
 # just security
 docker scout cves local://rust-devops-azure-sample:latest
 ```
+
+# Release
+
+Run manually the release_draft.yml workflow specifying the new version. 
+- Version must be semver, version bump is not compatible with previous version an error is issued
+- If build and tag are ok, an image for 'main' branch is updated in ghcr.io

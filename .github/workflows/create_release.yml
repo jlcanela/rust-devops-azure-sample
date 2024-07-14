@@ -20,6 +20,7 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
             tag-name: ${{ github.ref }}
+            previous-tag: "HEAD~8"
             chapters: '[
                 {"title": "Breaking Changes 💥", "label": "breaking-change"},
                 {"title": "New Features 🎉", "label": "enhancement"},

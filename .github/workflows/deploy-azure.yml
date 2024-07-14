@@ -18,9 +18,13 @@ jobs:
       uses: azure/container-apps-deploy-action@v1
       with:
         appSourcePath: ${{ github.workspace }}
-        acrName: ghcr.io
+        #acrName: ghcr.io
         #acrUsername: ${{ secrets.REGISTRY_USERNAME }}
         #acrPassword: ${{ secrets.REGISTRY_PASSWORD }}
-        imageToDeploy: ghcr.io/${{ github.repository }}:main
         containerAppName: RustSampleApp
         resourceGroup: default-rg
+        registryUrl: ghcr.io
+        imageToDeploy: ghcr.io/${{ github.repository }}:main
+        registryUsername: ${{ github.actor }}
+        registryPassword: ${{ secrets.GITHUB_TOKEN }}
+        

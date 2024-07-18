@@ -1,0 +1,29 @@
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
+load("@rules_pkg//:pkg.bzl", "pkg_tar")
+
+pkg_tar(
+    name = "root_files",
+    srcs = ["//crates/webapp:webapp"],  # Add any files you want to include in the image
+)
+
+pkg_tar(
+    name = "migration_files",
+    srcs = ["//sql-migrations:migration_files"],
+    package_dir = "sql-migrations",
+)
+
+oci_image(
+    name = "rust_app_server_image",
+    base = "@distroless_cc_debug",
+     tars = [
+        ":root_files",
+        ":migration_files",
+    ],
+    cmd = ["/webapp.rs"],
+)
+
+oci_tarball(
+    name = "rust_app_server_image_tarball",
+    image = ":rust_app_server_image",
+    repo_tags = ["rust_app_server:latest"],
+)

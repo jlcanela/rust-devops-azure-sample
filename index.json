@@ -1,0 +1,1 @@
+{"schemaVersion":2,"manifests":[{"mediaType":"application/vnd.docker.distribution.manifest.v2+json","digest":"sha256:87b8a4f64e889d58f029147701f59f49986e820082cc7dcefd86147ac980cc6d","size":3174,"annotations":{"io.containerd.image.name":"docker.io/library/rust_app_server:latest","org.opencontainers.image.ref.name":"latest"}}]}

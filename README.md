@@ -109,8 +109,4 @@ az containerapp env delete -n ProdRustEnv -g default-rg
 
 cd third-party && rm Cargo.lock && cargo generate-lockfile && cd ..
 bazel run //third-party:vendor
-bazel build //crates/webapp:hello_world
-
-
-
-bazel build //...
+bazel build //crates/webapp:webapp

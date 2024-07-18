@@ -11,16 +11,20 @@ lint:
 test:
     curl -v -X POST -H "Content-Type: application/json" -d '{"username":"jlc","password":"pass"}' http://localhost:8080/user
 
+# Build webapp binary
 build:
-    bazel build //crates/webapp:hello_world
+    bazel build //crates/webapp:webapp
 
+# Build docker image and push to local registry
 docker-build:
     bazel run //oci:rust_app_server_image_tarball
 
+# Start docker image with shell
 debug-image:
     #docker run -it --env-file .env -p 8080:8080 rust_app_server:latest /bin/sh
     docker run -it --env-file .env --entrypoint=/busybox/sh -p 8080:8080 rust_app_server:latest
 
+# Update third party dependencies
 update-deps:
     cd third-party && rm Cargo.lock && cargo generate-lockfile && cd ..
     bazel run //third-party:vendor

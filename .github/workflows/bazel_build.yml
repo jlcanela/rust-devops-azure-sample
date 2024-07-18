@@ -1,0 +1,33 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build_docker_image:
+    # virtual environments: https://github.com/actions/virtual-environments
+    runs-on: ubuntu-latest
+
+    steps:
+        # Caches and restores the bazelisk download directory.
+        # usual cache key have branch name, but we don't need it.
+        # $ { { runner.os }}-$ { { env.cache-name } } -development
+        - name: Setup bazelisk
+          uses: bazel-contrib/setup-bazel@0.8.1
+          with:
+            # Avoid downloading Bazel every time.
+            bazelisk-cache: true
+            # Store build cache per workflow.
+            disk-cache: ${{ github.workflow }}
+            # Share repository cache between workflows.
+            repository-cache: true
+        
+        # Checks-out your repository under $GITHUB_WORKSPACE, which is the CWD for
+        # the rest of the steps
+        - uses: actions/checkout@v4
+
+        # build
+        - name: Run Clippy
+          run: bazel build //crates/webapp:webapp_clippy
+      
+        - name: Build the docker image
+          run: bazel run //oci:rust_app_server_image_tarball

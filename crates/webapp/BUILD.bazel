@@ -1,5 +1,5 @@
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
-load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_doc")
+load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_clippy", "rust_doc")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -20,16 +20,19 @@ rust_binary(
         "@crates//:serde_json",
         "@crates//:sha2",
         "@crates//:sqlx",
-        #"@crates//:srcs",
         "@crates//:tokyo",
-        "@rules_rust//tools/runfiles",
-        #@crates//:rustls"
     ],
     data = ["//sql-migrations:migration_files"],
-    # rustc_flags = [
-    #     "-C", "target-feature=+crt-static",
-    #     "-C", "link-arg=-static",
-    # ],
+)
+
+rust_clippy(
+    name = "webapp_clippy",
+    deps = [":webapp"],
+)
+
+rust_doc(
+    name = "webapp_doc",
+    crate = ":webapp",
 )
 
 build_test(

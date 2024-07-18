@@ -103,3 +103,10 @@ Delete ContainerApp:
 az containerapp delete -n my-rust-app -g default-rg
 az containerapp env delete -n ProdRustEnv -g default-rg 
 ```
+
+
+## Bazel build 
+
+cd third-party && rm Cargo.lock && cargo generate-lockfile && cd ..
+bazel run //third-party:vendor
+bazel build //crates/webapp:webapp

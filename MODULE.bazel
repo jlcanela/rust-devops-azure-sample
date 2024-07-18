@@ -1,0 +1,115 @@
+"""bazelbuild/rules_rust - bzlmod example"""
+
+module(
+    name = "hello_world_example",
+    version = "0.0.0",
+)
+
+bazel_dep(
+    name = "bazel_skylib",
+    version = "1.5.0",
+)
+bazel_dep(
+    name = "rules_rust",
+    version = "0.46.0",
+)
+# local_path_override(
+#     module_name = "rules_rust",
+#     path = "../../..",
+# )
+
+rust = use_extension("@rules_rust//rust:extensions.bzl", "rust")
+rust.toolchain(edition = "2021")
+use_repo(
+    rust,
+    "rust_toolchains",
+)
+
+register_toolchains("@rust_toolchains//:all")
+
+# To do third party dependencies, you have multiple options:
+
+# Option 1: Fully transient (Cargo.toml / Cargo.lock as source of truth).
+crate = use_extension(
+    "@rules_rust//crate_universe:extension.bzl",
+    "crate",
+)
+crate.from_cargo(
+    name = "crates",
+    cargo_lockfile = "//third-party:Cargo.lock",
+    manifests = ["//third-party:Cargo.toml"],
+)
+use_repo(crate, "crates")
+
+bazel_dep(name = "rules_oci", version = "1.4.0")
+bazel_dep(name = "rules_pkg", version = "0.9.1")
+
+oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
+
+# oci.pull(
+#     name = "busybox",
+#     digest = "sha256:3fbc632167424a6d997e74f52b878d7cc478225cffac6bc977eedfe51c7f4e79",
+#     image = "docker.io/library/busybox",
+#     platforms = ["linux/amd64"],
+# )
+
+# use_repo(oci, "busybox")
+
+# oci.pull(
+#     name = "debian",
+#     digest = "sha256:9a67b70d0ba1d7c7690f917eedd8d24974dd8fd493205368b1e555a90c954208",
+#     image = "docker.io/library/debian",
+#     #platforms = ["linux/amd64"],
+# )
+
+# use_repo(oci, "debian")
+
+# oci.pull(
+#     name = "distroless_base",
+#     digest = "sha256:611d30d7f6d9992c37b1e1a212eefdf1f7c671deb56db3707e24eb01da8c4c2a",
+#     image = "gcr.io/distroless/base",
+#     platforms = [
+#         "linux/amd64",
+#     ],
+# )
+#use_repo(oci, "distroless_base")
+
+# oci.pull(
+#     name = "distroless_cc",
+#     digest = "sha256:3b75fdd33932d16e53a461277becf57c4f815c6cee5f6bc8f52457c095e004c8",  # Replace with actual digest
+#     image = "gcr.io/distroless/cc-debian12",
+#     platforms = ["linux/amd64"],  # Adjust platform as needed
+# )
+# use_repo(oci, "distroless_cc")
+
+oci.pull(
+    name = "distroless_cc_debug",
+    digest = "sha256:133c2e182e87c72c5efff9a3743f31542841425e9810b4a8371a9b95e06d1bd7",  # Replace with actual digest
+    image = "gcr.io/distroless/cc-debian12",
+    platforms = ["linux/amd64"],  # Adjust platform as needed
+)
+use_repo(oci, "distroless_cc_debug")
+
+
+#sha256:133c2e182e87c72c5efff9a3743f31542841425e9810b4a8371a9b95e06d1bd7
+#sha256:133c2e182e87c72c5efff9a3743f31542841425e9810b4a8371a9b95e06d1bd7
+
+
+# crate.annotation(
+#     additive_build_file = "//:anyhow.BUILD.bazel",
+#     crate = "anyhow",
+#     # Defined in additive_build_file.
+#     data = [":cargo_toml"],
+#     # Optional, you probably don't need this. Defaults to all from_cargo
+#     # invocations in this module.
+#     repositories = ["crates"],
+#     # Optional, you probably don't need this, defaults to "*".
+#     version = "*",
+# )
+
+# # Option 2: Vendored crates
+# crate_repositories = use_extension("//third-party:extension.bzl", "crate_repositories")
+# use_repo(crate_repositories, "vendor__actix-0.13.5")
+# Option 2: Vendored crates
+# crate_repositories = use_extension("//third-party:extension.bzl", "crate_repositories")
+# use_repo(crate_repositories, "vendor__anyhow-1.0.77")

@@ -1,0 +1,32 @@
+[workspace]
+[package]
+name = "third-party"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[lib]
+path = "/dev/null"
+
+[dependencies]
+anyhow = "1.0.77"
+actix = "0.13.5"
+actix-web = "4"
+#actix-web = { version = "4", features = ["rustls"] }
+rustls = "0.20"
+chrono = { version = "0.4.38", features = [ "serde" ] }
+dotenv = "0.15.0"
+serde = { version = "1.0.204", features = [ "derive" ] }
+serde_json = "1.0.120"
+sqlx = { version = "0.7.4", features = [ "runtime-async-std-native-tls", "sqlite", "chrono" ] }
+
+# DEPENDENCIES SPECIFIC TO AUTH
+actix-web-httpauth = "0.8.2"
+argonautica = "0.2.0"
+hmac = "0.12.1"
+jwt = "0.16.0"
+sha2 = "0.10.8"
+tokyo = "1.0.0"
+
+# DEPENDENCIES SPECIFIC TO BAZEL
+#bazel_runfiles = "0.12.0"

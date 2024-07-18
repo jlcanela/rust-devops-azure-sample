@@ -1,0 +1,89 @@
+# ./WORKSPACE
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "rules_rust",
+    integrity = "sha256-F8U7+AC5MvMtPKGdLLnorVM84cDXKfDRgwd7/dq3rUY=",
+    urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.46.0/rules_rust-v0.46.0.tar.gz"],
+)
+
+http_archive(
+    name = "toolchains_llvm",
+    sha256 = "e91c4361f99011a54814e1afbe5c436e0d329871146a3cd58c23a2b4afb50737",
+    strip_prefix = "toolchains_llvm-1.0.0",
+    canonical_id = "1.0.0",
+    url = "https://github.com/bazel-contrib/toolchains_llvm/releases/download/1.0.0/toolchains_llvm-1.0.0.tar.gz",
+)
+
+load("@toolchains_llvm//toolchain:deps.bzl", "bazel_toolchain_dependencies")
+
+bazel_toolchain_dependencies()
+
+
+load("@toolchains_llvm//toolchain:rules.bzl", "llvm_toolchain")
+
+llvm_toolchain(
+    name = "llvm_toolchain",
+    llvm_version = "16.0.0",
+)
+
+load("@llvm_toolchain//:toolchains.bzl", "llvm_register_toolchains")
+
+llvm_register_toolchains()
+
+# ./WORKSPACE
+load("@rules_rust//rust:repositories.bzl",  "rust_repositories", "rules_rust_dependencies", \
+"rust_register_toolchains",)
+rules_rust_dependencies()
+
+rust_repositories(
+    edition = "2021",
+    #include_rustc_srcs = True,
+    versions = [
+        "1.77.1",
+    ]
+)
+
+#load("@rules_rust//wasm_bindgen:repositories.bzl", "rust_wasm_bindgen_dependencies", "rust_wasm_bindgen_register_toolchains")
+#rust_wasm_bindgen_dependencies()
+#rust_wasm_bindgen_register_toolchains()
+
+load("@rules_rust//bindgen:repositories.bzl", "rust_bindgen_dependencies", "rust_bindgen_register_toolchains")
+rust_bindgen_dependencies()
+rust_bindgen_register_toolchains()
+
+load("@rules_rust//bindgen:transitive_repositories.bzl", "rust_bindgen_transitive_dependencies")
+rust_bindgen_transitive_dependencies()
+
+# Registers Rust toolchains with the given versions and editions.
+load("@llvm_toolchain//:toolchains.bzl", "llvm_register_toolchains")
+llvm_register_toolchains()
+
+rust_register_toolchains(
+    edition = "2021",
+    versions = [
+        "1.77.1"
+        # "nightly/2024-02-03",
+    ],
+    # extra_target_triples = [
+    #     "x86_64-unknown-linux-gnu",
+    #     # Add other targets you need
+    # ],
+)
+load("@rules_rust//crate_universe:repositories.bzl", "crate_universe_dependencies")
+crate_universe_dependencies()
+
+load("@rules_rust//crate_universe:defs.bzl", "crates_repository")
+crates_repository(
+    name = "crate_index",
+    cargo_lockfile = "//:Cargo.lock",
+    lockfile = "//:cargo-bazel-lock.json",
+    manifests = [
+        "//:Cargo.toml",
+        "//:crates/webapp/Cargo.toml",
+    ],
+)
+
+load("@crate_index//:defs.bzl", "crate_repositories")
+crate_repositories()

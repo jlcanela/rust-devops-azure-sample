@@ -1,0 +1,50 @@
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
+load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_clippy", "rust_doc")
+
+package(default_visibility = ["//visibility:public"])
+
+rust_binary(
+    name = "webapp",
+    srcs = ["src/main.rs", "src/services.rs"],
+    deps = [
+        "@crates//:actix",
+        "@crates//:actix-web",
+        "@crates//:actix-web-httpauth",
+        "@crates//:anyhow",
+        "@crates//:argonautica",
+        "@crates//:chrono",
+        "@crates//:dotenv",
+        "@crates//:hmac",
+        "@crates//:jwt",
+        "@crates//:serde",
+        "@crates//:serde_json",
+        "@crates//:sha2",
+        "@crates//:sqlx",
+        "@crates//:tokyo",
+    ],
+    data = ["//sql-migrations:migration_files"],
+)
+
+rust_clippy(
+    name = "webapp_clippy",
+    deps = [":webapp"],
+)
+
+rust_doc(
+    name = "webapp_doc",
+    crate = ":webapp",
+)
+
+build_test(
+    name = "gen_rust_project",
+    targets = [
+        "@rules_rust//tools/rust_analyzer:gen_rust_project",
+    ],
+)
+
+build_test(
+    name = "rust_fmt",
+    targets = [
+        "@rules_rust//:rustfmt",
+    ],
+)

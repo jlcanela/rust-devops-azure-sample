@@ -1,0 +1,39 @@
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball", "oci_push")
+load("@rules_pkg//:pkg.bzl", "pkg_tar")
+
+pkg_tar(
+    name = "root_files",
+    srcs = ["//crates/webapp:webapp"],  # Add any files you want to include in the image
+)
+
+pkg_tar(
+    name = "migration_files",
+    srcs = ["//sql-migrations:migration_files"],
+    package_dir = "sql-migrations",
+)
+
+oci_image(
+    name = "rust_app_server_image",
+    base = "@distroless_cc_debug",
+     tars = [
+        ":root_files",
+        ":migration_files",
+    ],
+    labels = {
+        "org.opencontainers.image.source": "https://github.com/jlcanela/rust-azure-webapp-sample",
+    },
+    cmd = ["/webapp.rs"],
+)
+
+oci_tarball(
+    name = "rust_app_server_image_tarball",
+    image = ":rust_app_server_image",
+    repo_tags = ["rust_app_server:latest"],
+)
+
+oci_push(
+    name = "push_rust_app_server_image",
+    image = ":rust_app_server_image",
+    repository = "ghcr.io/jlcanela/rust-azure-webapp-sample",
+    tags = ["latest"],
+)

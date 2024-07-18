@@ -57,6 +57,7 @@ async fn validator(req: ServiceRequest, credentials: BearerAuth) -> Result<Servi
     }
 }
 
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();

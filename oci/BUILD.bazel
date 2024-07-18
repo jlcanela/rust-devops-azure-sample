@@ -1,4 +1,4 @@
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball", "oci_push")
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
 
 pkg_tar(
@@ -19,6 +19,9 @@ oci_image(
         ":root_files",
         ":migration_files",
     ],
+    labels = {
+        "org.opencontainers.image.source": "https://github.com/jlcanela/rust-azure-webapp-sample",
+    },
     cmd = ["/webapp.rs"],
 )
 
@@ -26,4 +29,11 @@ oci_tarball(
     name = "rust_app_server_image_tarball",
     image = ":rust_app_server_image",
     repo_tags = ["rust_app_server:latest"],
+)
+
+oci_push(
+    name = "push_rust_app_server_image",
+    image = ":rust_app_server_image",
+    repository = "ghcr.io/jlcanela/rust-azure-webapp-sample",
+    tags = ["latest"],
 )

@@ -1,4 +1,4 @@
-name: CI
+name: Build docker image on push or pull request
 
 on:
     push:
@@ -27,14 +27,8 @@ jobs:
             # Share repository cache between workflows.
             repository-cache: true
         
-        # Checks-out your repository under $GITHUB_WORKSPACE, which is the CWD for
-        # the rest of the steps
         - uses: actions/checkout@v4
 
-        # build
-        - name: Run Clippy
-          run: bazel build //crates/webapp:webapp_clippy
-      
         - name: Build the docker image
           run: bazel run //oci:rust_app_server_image_tarball
 

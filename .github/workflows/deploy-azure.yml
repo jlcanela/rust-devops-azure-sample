@@ -9,22 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
-    - name: Deploy to Azure Container Apps
-      uses: azure/container-apps-deploy-action@v1
-      with:
-        #appSourcePath: ${{ github.workspace }}
-        #acrName: ghcr.io
-        #acrUsername: ${{ secrets.REGISTRY_USERNAME }}
-        #acrPassword: ${{ secrets.REGISTRY_PASSWORD }}
-        imageToDeploy: jlcanela/rust-azure-webapp-sample:main
-        containerAppName: rust-sample-app
-        resourceGroup: default-rg
-        registryUrl: ghcr.io
-        #registryUsername: ${{ github.actor }}
-        #registryPassword: ${{ secrets.GITHUB_TOKEN }}
-        
+    - name: deploy to Azure
+      run: |
+        az deployment sub create -n rust-app-deployment --location francecentral --template-file subscription.bicep \
+          --parameters hashSecret=$HASH_SECRET jwtSecret=$JWT_SECRET databaseUrl=$DATABASE_URL registryPassword=$READ_PACKAGE_PAT

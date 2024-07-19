@@ -79,34 +79,23 @@ Setup Credentials for entra-id
 az ad sp create-for-rbac --name "SampleRustApplication" --role contributor --scopes /subscriptions/<subscription-id>/resourceGroups/default-rg --sdk-auth
 ```
 
-## Provison and deprovison App
+## Manually provision and deprovision App
 
-Provision ContainerApps:
+Push image: 
 ```
-az group create --location francecentral --name ResourceGroupRustApp
-
-az containerapp env create -n DevEnv -g ResourceGroupRustApp \
-    --location francecentral --enable-workload-profiles false
-
-set -a
-source .env
-set +a
-
-az containerapp create -n rust-app -g ResourceGroupRustApp \
-    --image ghcr.io/jlcanela/rust-azure-webapp-sample@sha256:324d1ecb98eb8a6cdc697bd9f5a4153192799e631a8e71f646b914ecf57322ae \
-    --environment DevEnv \
-    --ingress external \
-    --env-vars "HASH_SECRET=$HASH_SECRET" "JWT_SECRET=$JWT_SECRET" "DATABASE_URL=$DATABASE_URL" \
-    --registry-server ghcr.io --registry-username jlcanela --registry-password $READ_PACKAGE_PAT \
-    --target-port 8080
+bazel run //oci:push_rust_app_server_image
 ```
 
-Delete ContainerApp:
+Deploy the container app:
 ```
-az containerapp delete -n my-rust-app -g default-rg
-az containerapp env delete -n ProdRustEnv -g default-rg 
+az deployment sub create -n rust-app-deployment --location francecentral --template-file subscription.bicep \
+    --parameters hashSecret=$HASH_SECRET jwtSecret=$JWT_SECRET databaseUrl=$DATABASE_URL registryPassword=$READ_PACKAGE_PAT
 ```
 
+Undeploy the container app:
+```
+az deployment sub delete -n rust-app-deployment
+```
 
 ## Bazel build 
 

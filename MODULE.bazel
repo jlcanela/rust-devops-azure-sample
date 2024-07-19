@@ -74,13 +74,13 @@ oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 # )
 #use_repo(oci, "distroless_base")
 
-# oci.pull(
-#     name = "distroless_cc",
-#     digest = "sha256:3b75fdd33932d16e53a461277becf57c4f815c6cee5f6bc8f52457c095e004c8",  # Replace with actual digest
-#     image = "gcr.io/distroless/cc-debian12",
-#     platforms = ["linux/amd64"],  # Adjust platform as needed
-# )
-# use_repo(oci, "distroless_cc")
+oci.pull(
+    name = "distroless_cc",
+    digest = "sha256:3b75fdd33932d16e53a461277becf57c4f815c6cee5f6bc8f52457c095e004c8",  # Replace with actual digest
+    image = "gcr.io/distroless/cc-debian12",
+    platforms = ["linux/amd64"],  # Adjust platform as needed
+)
+use_repo(oci, "distroless_cc")
 
 oci.pull(
     name = "distroless_cc_debug",

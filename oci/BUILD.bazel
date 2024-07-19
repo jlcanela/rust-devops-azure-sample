@@ -13,7 +13,7 @@ pkg_tar(
 )
 
 oci_image(
-    name = "rust_app_server_image",
+    name = "rust_app_server_debug_image",
     base = "@distroless_cc_debug",
      tars = [
         ":root_files",
@@ -22,13 +22,39 @@ oci_image(
     labels = {
         "org.opencontainers.image.source": "https://github.com/jlcanela/rust-azure-webapp-sample",
     },
-    cmd = ["/webapp.rs"],
+    cmd = ["/webapp"],
+)
+
+oci_image(
+    name = "rust_app_server_image",
+    base = "@distroless_cc",
+     tars = [
+        ":root_files",
+        ":migration_files",
+    ],
+    labels = {
+        "org.opencontainers.image.source": "https://github.com/jlcanela/rust-azure-webapp-sample",
+    },
+    cmd = ["/webapp"],
 )
 
 oci_tarball(
     name = "rust_app_server_image_tarball",
     image = ":rust_app_server_image",
     repo_tags = ["rust_app_server:latest"],
+)
+
+oci_tarball(
+    name = "rust_app_server_debug_image_tarball",
+    image = ":rust_app_server_debug_image",
+    repo_tags = ["rust_app_server_debug:latest"],
+)
+
+oci_push(
+    name = "push_rust_app_server_debug_image",
+    image = ":rust_app_server_debug_image",
+    repository = "ghcr.io/jlcanela/rust-azure-webapp-sample",
+    tags = ["latest"],
 )
 
 oci_push(

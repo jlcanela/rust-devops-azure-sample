@@ -83,18 +83,21 @@ az ad sp create-for-rbac --name "SampleRustApplication" --role contributor --sco
 
 Provision ContainerApps:
 ```
-az containerapp env create -n ProdRustEnv -g default-rg \
-    --location eastus2 --enable-workload-profiles false
+az group create --location francecentral --name ResourceGroupRustApp
+
+az containerapp env create -n DevEnv -g ResourceGroupRustApp \
+    --location francecentral --enable-workload-profiles false
 
 set -a
 source .env
 set +a
 
-az containerapp create -n my-rust-app2 -g default-rg \
-    --image ghcr.io/jlcanela/rust-azure-webapp-sample:main \
-    --environment ProdRustEnv \
+az containerapp create -n rust-app -g ResourceGroupRustApp \
+    --image ghcr.io/jlcanela/rust-azure-webapp-sample@sha256:324d1ecb98eb8a6cdc697bd9f5a4153192799e631a8e71f646b914ecf57322ae \
+    --environment DevEnv \
     --ingress external \
     --env-vars "HASH_SECRET=$HASH_SECRET" "JWT_SECRET=$JWT_SECRET" "DATABASE_URL=$DATABASE_URL" \
+    --registry-server ghcr.io --registry-username jlcanela --registry-password $READ_PACKAGE_PAT \
     --target-port 8080
 ```
 

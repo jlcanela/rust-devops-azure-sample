@@ -23,5 +23,6 @@
         "blobs": false,
         "oci": false,
         "third-party": false
-    }
+    },
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

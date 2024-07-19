@@ -113,3 +113,21 @@ az containerapp env delete -n ProdRustEnv -g default-rg
 cd third-party && rm Cargo.lock && cargo generate-lockfile && cd ..
 bazel run //third-party:vendor
 bazel build //crates/webapp:webapp
+
+## Add pre-commit hook
+
+Edit the file ./git/hooks/pre-commit :
+``` bash
+#!/bin/sh
+
+set -e
+
+if ! bazel build //crates/webapp:webapp_clippy
+then
+    echo "There are some clippy issues. Please check with"
+    echo "  bazel build //crates/webapp:webapp_clippy"
+    exit 1
+fi
+
+exit 0
+```

@@ -1,4 +1,4 @@
-name: Deploy to Azure the 'main' version
+name: Deploy to Azure the 'dev' version
 on:
   workflow_dispatch:
 

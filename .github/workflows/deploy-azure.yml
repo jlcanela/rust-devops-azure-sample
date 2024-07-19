@@ -8,6 +8,11 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: $AZURE_CREDENTIALS
     
     - name: deploy to Azure
       run: |

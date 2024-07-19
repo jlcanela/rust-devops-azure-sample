@@ -16,5 +16,5 @@ jobs:
     
     - name: deploy to Azure
       run: |
-        az deployment sub create -n rust-app-deployment --location francecentral --template-file subscription.bicep \
+        az deployment group create --resource-group ResourceGroupDev --name deploy-dev --template-file deployment.bicep \
           --parameters hashSecret=$HASH_SECRET jwtSecret=$JWT_SECRET databaseUrl=$DATABASE_URL registryPassword=$READ_PACKAGE_PAT

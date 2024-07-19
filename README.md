@@ -76,7 +76,15 @@ az provider register -n Microsoft.OperationalInsights --wait
 
 Setup Credentials for entra-id
 ```
-az ad sp create-for-rbac --name "SampleRustApplication" --role contributor --scopes /subscriptions/<subscription-id>/resourceGroups/default-rg --sdk-auth
+az group create --location francecentral --name ResourceGroupDev
+az ad sp create-for-rbac --name "SampleRustApplication" --role contributor --scopes /subscriptions/<subscription-id>/resourceGroups/ResourceGroupDev --sdk-auth
+```
+
+Add role to a resource group 
+```
+SubscriptionID=$(az account show --query id --output tsv)
+ObjectID=$(az ad sp list --display-name "SampleRustApplication" --query "[].id" -o tsv)
+az role assignment create --assignee $ObjectID --role "contributor" --scope "/subscriptions/$SubscriptionID/resourceGroups/ResourceGroupDev"
 ```
 
 ## Manually provision and deprovision App
@@ -88,13 +96,13 @@ bazel run //oci:push_rust_app_server_image
 
 Deploy the container app:
 ```
-az deployment sub create -n rust-app-deployment --location francecentral --template-file subscription.bicep \
+az deployment group create --resource-group ResourceGroupDev --template-file subscription.bicep \
     --parameters hashSecret=$HASH_SECRET jwtSecret=$JWT_SECRET databaseUrl=$DATABASE_URL registryPassword=$READ_PACKAGE_PAT
 ```
 
 Undeploy the container app:
 ```
-az deployment sub delete -n rust-app-deployment
+az deployment group delete --resource-group ResourceGroupDev
 ```
 
 ## Bazel build 

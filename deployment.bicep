@@ -1,7 +1,6 @@
-targetScope = 'subscription'
+targetScope = 'resourceGroup'
 
 param location string = 'francecentral'
-param resourceGroupName string = 'ResourceGroupRustApp'
 param environmentName string = 'DevEnv'
 param appName string = 'rust-app'
 @secure()
@@ -14,14 +13,10 @@ param registryUsername string = 'jlcanela'
 param registryPassword string
 param imageUrl string = 'ghcr.io/jlcanela/rust-azure-webapp-sample@sha256:9d7b795d638a1aa24bfb46b6eea8cbc3a4b64f71706311940426d686c3e77c4f'
 
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: resourceGroupName
-  location: location
-}
 
 module containerAppEnv 'modules/containerAppEnv.bicep' = {
-  scope: resourceGroup
-  name: 'containerAppEnv'
+  name: 'devEnv'
+  scope: resourceGroup()
   params: {
     location: location
     environmentName: environmentName
@@ -29,7 +24,7 @@ module containerAppEnv 'modules/containerAppEnv.bicep' = {
 }
 
 module containerApp 'modules/containerApp.bicep' = {
-  scope: resourceGroup
+  scope: resourceGroup()
   name: 'containerApp'
   params: {
     location: location

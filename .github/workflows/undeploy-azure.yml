@@ -16,4 +16,4 @@ jobs:
     
     - name: remove from Azure
       run: |
-        az deployment group create --mode Complete --resource-group ResourceGroupDev --template-file delete.bicep
+        az deployment group create --mode Complete --resource-group ResourceGroupDev --template-file delete.bicep --no-wait

@@ -21,29 +21,17 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' = {
         external: true
         targetPort: 8080
       }
-      secrets: [
-        {
-          name: 'hash-secret'
-          value: hashSecret
-        }
-        {
-          name: 'jwt-secret'
-          value: jwtSecret
-        }
-        {
-          name: 'registry-username'
-          value: registryUsername
-        }
-        {
-          name: 'registry-password'
-          value: registryPassword
-        }
-      ]
       registries: [
         {
           server: 'ghcr.io'
           username: registryUsername
           passwordSecretRef: 'registry-password'
+        }
+      ]
+      secrets: [
+        {
+          name: 'registry-password'
+          value: registryPassword
         }
       ]
     }
@@ -55,11 +43,11 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' = {
           env: [
             {
               name: 'HASH_SECRET'
-              secretRef: 'hash-secret'
+              value: hashSecret
             }
             {
               name: 'JWT_SECRET'
-              secretRef: 'jwt-secret'
+              value: jwtSecret
             }
             {
               name: 'DATABASE_URL'

@@ -87,12 +87,38 @@ ObjectID=$(az ad sp list --display-name "SampleRustApplication" --query "[].id" 
 az role assignment create --assignee $ObjectID --role "contributor" --scope "/subscriptions/$SubscriptionID/resourceGroups/ResourceGroupDev"
 ```
 
+Create the role.json file with the content:
+```
+{
+  "Name": "Key Vault Bicep deployment operator",
+  "IsCustom": true,
+  "Description": "Lets you deploy a Bicep file with the access to the secrets in the Key Vault.",
+  "Actions": [
+    "Microsoft.KeyVault/vaults/deploy/action"
+  ],
+  "NotActions": [],
+  "DataActions": [],
+  "NotDataActions": [],
+  "AssignableScopes": [
+    "/subscriptions/af961c2f-37bb-4af8-a08a-d3d558f69e76"
+  ]
+}
+```
+
+Create and assign the role to SampleRustApplication
+```
+az role definition create --role-definition "role.json"
+az role assignment create --role "Key Vault Bicep deployment operator" --scope /subscriptions/$SubscriptionID/resourceGroups/ResourceGroupDev --assignee $ObjectID
+```
+
 ## Manually provision and deprovision App
 
 Push image: 
 ```
 bazel run //oci:push_rust_app_server_image
 ```
+
+Create a keyvault 'KeyVaultContainerApp'
 
 Deploy the container app:
 ```

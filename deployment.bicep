@@ -15,8 +15,8 @@ param imageUrl string = 'ghcr.io/jlcanela/rust-azure-webapp-sample@sha256:9d7b79
 
 
 module containerAppEnv 'modules/containerAppEnv.bicep' = {
-  name: 'devEnv'
   scope: resourceGroup()
+  name: 'devEnv'
   params: {
     location: location
     environmentName: environmentName

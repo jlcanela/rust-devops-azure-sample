@@ -37,6 +37,21 @@ jobs:
           script: |
             const newTag = core.getInput('tag-name');
 
+            function tagVersion(tag) { return tag.ref.replace('refs/tags/', '').replace('v', '') }
+            function cmp (a, b) {
+                var pa = a.split('.');
+                var pb = b.split('.');
+                for (var i = 0; i < 3; i++) {
+                    var na = Number(pa[i]);
+                    var nb = Number(pb[i]);
+                    if (na > nb) return -1;
+                    if (nb > na) return 1;
+                    if (!isNaN(na) && isNaN(nb)) return 1;
+                    if (isNaN(na) && !isNaN(nb)) return -1;
+                }
+                return 0;
+            };
+
             // get latest tag
             const { data: refs } = await github.rest.git.listMatchingRefs({
               owner: context.repo.owner,
@@ -46,16 +61,16 @@ jobs:
             console.log('refs:', refs);
             console.log(`Existing tags: ${refs.map(ref => ref.ref.replace('refs/tags/', '')).join(', ')}`);
 
-            const latestTag = refs.length == 0 ? '0.0.0' : refs.sort((a, b) => new Date(b.object.date) - new Date(a.object.date))[0].ref.replace('refs/tags/', '');
-            console.log(`Latest tag: ${latestTag}`);
+            const latestVersion = refs.length == 0 ? '0.0.0' : refs.map(tagVersion).sort(cmp)[0].split('.').map(Number);
+            console.log(`Latest version: ${latestVersion}`);
 
-            const latestVersion = latestTag.replace('v', '').split('.').map(Number);
             const newVersion = newTag.replace('v', '').split('.').map(Number);
 
             // check tag's correct version increase
-            const isValid = (latestVersion[0] === newVersion[0] && latestVersion[1] === newVersion[1] && newVersion[2] === latestVersion[2] + 1) ||
-              (latestVersion[0] === newVersion[0] && newVersion[1] === latestVersion[1] + 1 && newVersion[2] === 0) ||
-              (newVersion[0] === latestVersion[0] + 1 && newVersion[1] === 0 && newVersion[2] === 0);
+            const bumpPatch = latestVersion[0] === newVersion[0] && latestVersion[1] === newVersion[1] && newVersion[2] === latestVersion[2] + 1;
+            const bumpMinor = latestVersion[0] === newVersion[0] && newVersion[1] === latestVersion[1] + 1 && newVersion[2] === 0;
+            const bumpMajor = newVersion[0] === latestVersion[0] + 1 && newVersion[1] === 0 && newVersion[2] === 0;
+            const isValid = bumpPatch || bumpMinor || bumpMajor;
 
             if (!isValid) {
               core.setFailed('New tag is not one version higher than the latest tag');

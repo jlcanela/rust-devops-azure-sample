@@ -28,6 +28,13 @@ rust_library(
             "WORKSPACE.bazel",
         ],
     ),
+    crate_features = [
+        "any",
+        "chrono",
+        "json",
+        "migrate",
+        "offline",
+    ],
     crate_root = "src/lib.rs",
     edition = "2021",
     rustc_flags = [
@@ -83,6 +90,7 @@ rust_library(
         "@vendor__base64-0.21.7//:base64",
         "@vendor__bitflags-2.6.0//:bitflags",
         "@vendor__byteorder-1.5.0//:byteorder",
+        "@vendor__chrono-0.4.38//:chrono",
         "@vendor__crc-3.2.1//:crc",
         "@vendor__dotenvy-0.15.7//:dotenvy",
         "@vendor__futures-channel-0.3.30//:futures_channel",

@@ -18,7 +18,7 @@ rust_library(
         allow_empty = False,
     ),
     aliases = {
-        "@vendor__openssl-sys-0.9.102//:openssl_sys": "ffi",
+        "@vendor__openssl-sys-0.9.103//:openssl_sys": "ffi",
     },
     compile_data = glob(
         include = ["**"],
@@ -87,15 +87,15 @@ rust_library(
         "@rules_rust//rust/platform:x86_64-unknown-none": [],
         "//conditions:default": ["@platforms//:incompatible"],
     }),
-    version = "0.10.64",
+    version = "0.10.65",
     deps = [
         "@vendor__bitflags-2.6.0//:bitflags",
         "@vendor__cfg-if-1.0.0//:cfg_if",
         "@vendor__foreign-types-0.3.2//:foreign_types",
         "@vendor__libc-0.2.155//:libc",
         "@vendor__once_cell-1.19.0//:once_cell",
-        "@vendor__openssl-0.10.64//:build_script_build",
-        "@vendor__openssl-sys-0.9.102//:openssl_sys",
+        "@vendor__openssl-0.10.65//:build_script_build",
+        "@vendor__openssl-sys-0.9.103//:openssl_sys",
     ],
 )
 
@@ -124,7 +124,7 @@ cargo_build_script(
     ),
     edition = "2018",
     link_deps = [
-        "@vendor__openssl-sys-0.9.102//:openssl_sys",
+        "@vendor__openssl-sys-0.9.103//:openssl_sys",
     ],
     pkg_name = "openssl",
     rustc_flags = [
@@ -137,7 +137,7 @@ cargo_build_script(
         "noclippy",
         "norustfmt",
     ],
-    version = "0.10.64",
+    version = "0.10.65",
     visibility = ["//visibility:private"],
 )
 

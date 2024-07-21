@@ -5,9 +5,13 @@ use actix_web::{
     App, HttpMessage, HttpServer,
 };
 
-use dotenv::dotenv;
-use sqlx::{sqlite::{SqliteConnectOptions, SqlitePool}, Pool, Sqlite};
 use std::str::FromStr;
+use dotenv::dotenv;
+use sqlx::Pool;
+use sqlx::Postgres;
+use sqlx::postgres::{PgPoolOptions, PgConnectOptions};
+// use sqlx::Sqlite;
+// use sqlx::sqlite::{SqliteConnectOptions, SqlitePool};
 
 use actix_web_httpauth::{
     extractors::{
@@ -28,7 +32,7 @@ use services::{basic_auth, create_article, create_user};
 
 
 pub struct AppState {
-    db: Pool<Sqlite>,
+    db: Pool<Postgres>,
 }
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -57,6 +61,20 @@ async fn validator(req: ServiceRequest, credentials: BearerAuth) -> Result<Servi
     }
 }
 
+trait FindDatabaseType {
+    fn db_type(&self) -> DatabaseType;
+}
+
+enum DatabaseType {
+    //Sqlite,
+    Postgres
+}
+
+impl FindDatabaseType for String {
+    fn db_type(&self) -> DatabaseType {
+        DatabaseType::Postgres
+    }
+}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -65,13 +83,32 @@ async fn main() -> std::io::Result<()> {
     let db_url = std::env::var("DATABASE_URL")
     .expect("DATABASE_URL must be set!");
 
-    let options = SqliteConnectOptions::from_str(&db_url)
-    .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?
-    .create_if_missing(true);
+    let db_type = db_url.db_type();
 
-    // Create the connection pool
-    let pool = SqlitePool::connect_with(options).await
-    .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?;
+    
+    let pool: Pool<_> = match db_type {
+        // DatabaseType::Sqlite => {
+        //     let options = SqliteConnectOptions::from_str(&db_url)
+        //     .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?
+        //     .create_if_missing(true);
+        
+        //     // Create the connection pool
+        //     SqlitePool::connect_with(options).await
+        //     .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?
+        // } 
+    
+        DatabaseType::Postgres => {                    
+            let options = PgConnectOptions::from_str(&db_url)
+            .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?;
+
+            // Create the connection pool
+            PgPoolOptions::new()
+            .max_connections(5) // Adjust the number of max connections as needed
+            .connect_with(options)
+            .await
+            .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?
+        }
+    };
 
     use sqlx::migrate::Migrator;
     let migration_path = Path::new("./sql-migrations").to_path_buf();

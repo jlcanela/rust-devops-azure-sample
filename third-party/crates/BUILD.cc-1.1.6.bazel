@@ -6,13 +6,12 @@
 #     bazel run @@//third-party:vendor
 ###############################################################################
 
-load("@rules_rust//cargo:defs.bzl", "cargo_build_script")
 load("@rules_rust//rust:defs.bzl", "rust_library")
 
 package(default_visibility = ["//visibility:public"])
 
 rust_library(
-    name = "openssl_sys",
+    name = "cc",
     srcs = glob(
         include = ["**/*.rs"],
         allow_empty = False,
@@ -29,6 +28,9 @@ rust_library(
             "WORKSPACE.bazel",
         ],
     ),
+    crate_features = [
+        "parallel",
+    ],
     crate_root = "src/lib.rs",
     edition = "2018",
     rustc_flags = [
@@ -36,7 +38,7 @@ rust_library(
     ],
     tags = [
         "cargo-bazel",
-        "crate-name=openssl-sys",
+        "crate-name=cc",
         "manual",
         "noclippy",
         "norustfmt",
@@ -78,57 +80,9 @@ rust_library(
         "@rules_rust//rust/platform:x86_64-unknown-none": [],
         "//conditions:default": ["@platforms//:incompatible"],
     }),
-    version = "0.9.102",
+    version = "1.1.6",
     deps = [
+        "@vendor__jobserver-0.1.31//:jobserver",
         "@vendor__libc-0.2.155//:libc",
-        "@vendor__openssl-sys-0.9.102//:build_script_main",
     ],
-)
-
-cargo_build_script(
-    name = "_bs",
-    srcs = glob(
-        include = ["**/*.rs"],
-        allow_empty = False,
-    ),
-    crate_name = "build_script_main",
-    crate_root = "build/main.rs",
-    data = glob(
-        include = ["**"],
-        allow_empty = True,
-        exclude = [
-            "**/* *",
-            ".tmp_git_root/**/*",
-            "BUILD",
-            "BUILD.bazel",
-            "WORKSPACE",
-            "WORKSPACE.bazel",
-        ],
-    ),
-    edition = "2018",
-    links = "openssl",
-    pkg_name = "openssl-sys",
-    rustc_flags = [
-        "--cap-lints=allow",
-    ],
-    tags = [
-        "cargo-bazel",
-        "crate-name=openssl-sys",
-        "manual",
-        "noclippy",
-        "norustfmt",
-    ],
-    version = "0.9.102",
-    visibility = ["//visibility:private"],
-    deps = [
-        "@vendor__cc-1.1.5//:cc",
-        "@vendor__pkg-config-0.3.30//:pkg_config",
-        "@vendor__vcpkg-0.2.15//:vcpkg",
-    ],
-)
-
-alias(
-    name = "build_script_main",
-    actual = ":_bs",
-    tags = ["manual"],
 )

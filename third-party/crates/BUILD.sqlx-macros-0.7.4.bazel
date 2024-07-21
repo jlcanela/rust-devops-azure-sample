@@ -35,6 +35,7 @@ rust_proc_macro(
         "default",
         "json",
         "migrate",
+        "postgres",
         "sqlite",
     ],
     crate_root = "src/lib.rs",

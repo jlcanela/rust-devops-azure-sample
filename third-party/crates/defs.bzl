@@ -1106,12 +1106,12 @@ def crate_repositories():
 
     maybe(
         http_archive,
-        name = "vendor__cc-1.1.5",
-        sha256 = "324c74f2155653c90b04f25b2a47a8a631360cb908f92a772695f430c7e31052",
+        name = "vendor__cc-1.1.6",
+        sha256 = "2aba8f4e9906c7ce3c73463f62a7f0c65183ada1a2d47e397cc8810827f9694f",
         type = "tar.gz",
-        urls = ["https://static.crates.io/crates/cc/1.1.5/download"],
-        strip_prefix = "cc-1.1.5",
-        build_file = Label("@//third-party/crates:BUILD.cc-1.1.5.bazel"),
+        urls = ["https://static.crates.io/crates/cc/1.1.6/download"],
+        strip_prefix = "cc-1.1.6",
+        build_file = Label("@//third-party/crates:BUILD.cc-1.1.6.bazel"),
     )
 
     maybe(
@@ -2646,12 +2646,12 @@ def crate_repositories():
 
     maybe(
         http_archive,
-        name = "vendor__openssl-0.10.64",
-        sha256 = "95a0481286a310808298130d22dd1fef0fa571e05a8f44ec801801e84b216b1f",
+        name = "vendor__openssl-0.10.65",
+        sha256 = "c2823eb4c6453ed64055057ea8bd416eda38c71018723869dd043a3b1186115e",
         type = "tar.gz",
-        urls = ["https://static.crates.io/crates/openssl/0.10.64/download"],
-        strip_prefix = "openssl-0.10.64",
-        build_file = Label("@//third-party/crates:BUILD.openssl-0.10.64.bazel"),
+        urls = ["https://static.crates.io/crates/openssl/0.10.65/download"],
+        strip_prefix = "openssl-0.10.65",
+        build_file = Label("@//third-party/crates:BUILD.openssl-0.10.65.bazel"),
     )
 
     maybe(
@@ -2676,12 +2676,12 @@ def crate_repositories():
 
     maybe(
         http_archive,
-        name = "vendor__openssl-sys-0.9.102",
-        sha256 = "c597637d56fbc83893a35eb0dd04b2b8e7a50c91e64e9493e398b5df4fb45fa2",
+        name = "vendor__openssl-sys-0.9.103",
+        sha256 = "7f9e8deee91df40a943c71b917e5874b951d32a802526c85721ce3b776c929d6",
         type = "tar.gz",
-        urls = ["https://static.crates.io/crates/openssl-sys/0.9.102/download"],
-        strip_prefix = "openssl-sys-0.9.102",
-        build_file = Label("@//third-party/crates:BUILD.openssl-sys-0.9.102.bazel"),
+        urls = ["https://static.crates.io/crates/openssl-sys/0.9.103/download"],
+        strip_prefix = "openssl-sys-0.9.103",
+        build_file = Label("@//third-party/crates:BUILD.openssl-sys-0.9.103.bazel"),
     )
 
     maybe(

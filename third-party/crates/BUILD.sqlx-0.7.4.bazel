@@ -36,10 +36,12 @@ rust_library(
         "json",
         "macros",
         "migrate",
+        "postgres",
         "runtime-async-std",
         "runtime-async-std-native-tls",
         "sqlite",
         "sqlx-macros",
+        "sqlx-postgres",
         "sqlx-sqlite",
         "tls-native-tls",
     ],
@@ -98,6 +100,7 @@ rust_library(
     version = "0.7.4",
     deps = [
         "@vendor__sqlx-core-0.7.4//:sqlx_core",
+        "@vendor__sqlx-postgres-0.7.4//:sqlx_postgres",
         "@vendor__sqlx-sqlite-0.7.4//:sqlx_sqlite",
     ],
 )

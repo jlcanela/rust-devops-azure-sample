@@ -13,10 +13,10 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
+          
     - name: deploy to Azure
       run: |
         az deployment group create --resource-group ResourceGroupDev --name deploy-dev --template-file deployment.bicep \
           --parameters hashSecret=${{ secrets.HASH_SECRET }}  jwtSecret=${{ secrets.JWT_SECRET }} \
-            databaseUrl=${{ secrets.DATABASE_URL }}  registryPassword=${{ secrets.READ_PACKAGE_PAT }} --no-wait
-
+            databaseUrl=${{ secrets.DATABASE_URL }}  registryPassword=${{ secrets.READ_PACKAGE_PAT }} \
+            imageUrl='ghcr.io/jlcanela/rust-azure-webapp-sample:latest' --no-wait

@@ -11,7 +11,7 @@ param databaseUrl string
 param registryUsername string = 'jlcanela'
 @secure()
 param registryPassword string
-param imageUrl string = 'ghcr.io/jlcanela/rust-azure-webapp-sample@sha256:9d7b795d638a1aa24bfb46b6eea8cbc3a4b64f71706311940426d686c3e77c4f'
+param imageUrl string = 'ghcr.io/jlcanela/rust-azure-webapp-sample:latest'
 
 
 module containerAppEnv 'modules/containerAppEnv.bicep' = {

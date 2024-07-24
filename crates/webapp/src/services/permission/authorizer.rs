@@ -1,5 +1,7 @@
 use std::fs;
 
+use super::action::*;
+
 // use cedar_policy::PrincipalConstraint::{Any, Eq, In, Is, IsIn};
 use cedar_policy::{
     Authorizer, Context, Decision, Entities, /*Entity,*/ EntityId, EntityTypeName, EntityUid, /*Policy,*/
@@ -38,16 +40,20 @@ impl Default for Permission {
 
 impl Permission {
     
-    fn anonymous() -> EntityUid {
-        let p_eid = EntityId::from_str("anonymous").unwrap(); // does not go through the parser
-        let p_name: EntityTypeName = EntityTypeName::from_str("User").unwrap(); // through parse_name(s)
-        EntityUid::from_type_name_and_id(p_name, p_eid)
-    }
-
-    fn view_project_action() -> EntityUid {
-        let a_eid = EntityId::from_str("ViewProject").unwrap(); // does not go through the parser
-        let a_name: EntityTypeName = EntityTypeName::from_str("Action").unwrap(); // through parse_name(s)
-        EntityUid::from_type_name_and_id(a_name, a_eid)
+    fn principal(token: Option<String>) -> EntityUid {
+        match token {
+            None => {
+                let p_eid = EntityId::from_str("anonymous").unwrap(); // does not go through the parser
+                let p_name: EntityTypeName = EntityTypeName::from_str("User").unwrap(); // through parse_name(s)
+                EntityUid::from_type_name_and_id(p_name, p_eid)
+            }    
+            Some(_token) => {
+                let p_eid = EntityId::from_str("somebody").unwrap(); // does not go through the parser
+                let p_name: EntityTypeName = EntityTypeName::from_str("User").unwrap(); // through parse_name(s)
+                EntityUid::from_type_name_and_id(p_name, p_eid)
+            }
+    
+        } 
     }
 
     fn project() -> EntityUid {
@@ -56,28 +62,48 @@ impl Permission {
         EntityUid::from_type_name_and_id(r_name, r_eid)
     }
 
+    fn create_static_entities() -> Entities {
+        let e = r#"[
+            {
+                "uid": {
+                    "type": "Group",
+                    "id": "AllUsers"
+                },
+                "attrs": {},
+                "parents": []
+            },
+            {
+                "uid": {
+                    "type": "Group",
+                    "id": "AllProjects"
+                },
+                "attrs": {},
+                "parents": []
+            }
+        ]"#;
+        Entities::from_json_str(e, None).expect("entity error")
+    }
+
     fn create_entities_json() -> Entities {
         let e = r#"[
     {
         "uid": {
-            "type": "Group",
-            "id": "AllUsers"
+            "type": "User",
+            "id": "anonymous"
         },
-        "attrs": {},
-        "parents": []
-    },
-    {
-        "uid": {
-            "type": "Group",
-            "id": "AllProjects"
+        "attrs": {
         },
-        "attrs": {},
-        "parents": []
+        "parents": [
+            {
+                "type": "Group",
+                "id": "AllUsers"
+            }
+        ]
     },
     {
         "uid": {
             "type": "User",
-            "id": "anonymous"
+            "id": "somebody"
         },
         "attrs": {
         },
@@ -107,16 +133,19 @@ impl Permission {
         Entities::from_json_str(e, None).expect("entity error")
     }
 
-    pub fn is_authorized(&self, _principal: String, _action: String, _resource: String, _context: String, _entities: String) -> bool {
+    pub fn is_authorized<T>(&self, token: Option<String>, action: Action, _resource: &T) -> bool {
         let authorizer = Authorizer::new();
 
-        let p = Permission::anonymous();
-        let a = Permission::view_project_action();
+        let p = Permission::principal(token);
+        let a: EntityUid = action.into();
         let r = Permission::project();
 
         let request: Request = Request::new(Some(p), Some(a), Some(r), Context::empty(), None).unwrap();
 
-        let entities = Permission::create_entities_json();
+        let mut entities = Entities::empty();
+        entities = entities.add_entities(Permission::create_static_entities(), None).unwrap();
+        entities = entities.add_entities(Permission::create_entities_json(), None).unwrap();
+
         let ans = authorizer.is_authorized(&request, &self.policies, &entities);
 
         for reason in ans.diagnostics().reason() {

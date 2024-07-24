@@ -5,7 +5,14 @@ package(default_visibility = ["//visibility:public"])
 
 rust_binary(
     name = "webapp",
-    srcs = ["src/main.rs", "src/services/mod.rs", "src/services/articles.rs", "src/services/projects.rs", "src/services/permission.rs"],
+    srcs = ["src/main.rs", 
+            "src/services/mod.rs",
+            "src/services/articles.rs", 
+            "src/services/projects.rs", 
+            "src/services/permission/mod.rs",
+            "src/services/permission/authorizer.rs",
+            "src/services/permission/action.rs",
+            ],
     deps = [
         "@crates//:actix",
         "@crates//:actix-web",

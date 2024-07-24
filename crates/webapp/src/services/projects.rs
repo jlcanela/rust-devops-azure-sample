@@ -6,6 +6,8 @@ use actix_web::{
     HttpResponse, Responder,
 };
 
+use crate::services::*;
+
 use serde::{Deserialize, Serialize};
 use sqlx::{self, FromRow, Pool, Postgres};
 
@@ -60,7 +62,7 @@ async fn list_projects(state: Data<AppState>) -> impl Responder {
 async fn get_project(state: Data<AppState>, path: web::Path<String>) -> impl Responder {
     let project_id: String = path.into_inner();
 
-    async fn fetch(db: &Pool<Postgres>, id: String) -> Result<Project, String> {
+    async fn fetch(db: &Pool<Postgres>, permission: &Permission, token: Option<String>, id: String) -> Result<Project, String> {
         let id = id.parse::<i64>().map_err(|err| err.to_string())?;
         let project = sqlx::query_as::<_, Project>(
                 "SELECT id, name, description from projects
@@ -71,16 +73,20 @@ async fn get_project(state: Data<AppState>, path: web::Path<String>) -> impl Res
             .await
             .map_err(|err| err.to_string())?;
 
-        Ok(project)
+       
+        let permission = permission.is_authorized(token, Action::ViewProject, &project);
+        if permission {
+            Ok(project)
+        } else {
+            Err("Authorization Failed".to_string())
+        }
+    
     }
 
-    let permission = &state.permission.is_authorized("principal: String".to_string(), "action: String".to_string(), "resource: String".to_string(), "context: String".to_string(), "entities: String".to_string());
-    if !permission {
-        return HttpResponse::Forbidden().json("Authorization Failed");
-    }
-
-    match fetch(&state.db, project_id).await {
+    let token = state.current_token();
+    match fetch(&state.db, &state.permission, token, project_id).await {
         Ok(id) => HttpResponse::Ok().json(id),
+        Err(err) if err == "Authorization Failed" => HttpResponse::Forbidden().json("Forbidden"),
         Err(error) => HttpResponse::InternalServerError().json(format!("{:?}", error))
     }
 }

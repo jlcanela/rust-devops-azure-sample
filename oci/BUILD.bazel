@@ -3,7 +3,7 @@ load("@rules_pkg//:pkg.bzl", "pkg_tar")
 
 pkg_tar(
     name = "root_files",
-    srcs = ["//crates/webapp:webapp"],  # Add any files you want to include in the image
+    srcs = ["//crates/webapp:webapp", "//cedar-policies:cedar_policies"],  # Add any files you want to include in the image
 )
 
 pkg_tar(

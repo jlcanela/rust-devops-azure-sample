@@ -1,0 +1,5 @@
+filegroup(
+    name = "cedar_policies",
+    srcs = ["projects/policies.cedar", "projects/projects.cedarschema"],
+    visibility = ["//visibility:public"],
+)

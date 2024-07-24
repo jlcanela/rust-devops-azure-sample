@@ -108,7 +108,7 @@ async fn basic_auth(state: Data<AppState>, credentials: BasicAuth) -> impl Respo
                     //let is_valid = true;
 
                     if is_valid {
-                        let claims = TokenClaims { id: user.id };
+                        let claims = TokenClaims { id: user.id, roles: vec![] };
                         let token_str = claims.sign_with_key(&jwt_secret).unwrap();
                         HttpResponse::Ok().json(token_str)
                     } else {
@@ -121,6 +121,7 @@ async fn basic_auth(state: Data<AppState>, credentials: BasicAuth) -> impl Respo
         }
     }
 }
+
 
 #[post("/article")]
 async fn create_article(state: Data<AppState>, req_user: Option<ReqData<TokenClaims>>, body: Json<CreateArticleBody>) -> impl Responder {

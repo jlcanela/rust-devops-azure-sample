@@ -1,0 +1,46 @@
+[
+    {
+        "uid": {
+            "type": "Group",
+            "id": "AllUsers"
+        },
+        "attrs": {},
+        "parents": []
+    },
+    {
+        "uid": {
+            "type": "Group",
+            "id": "AllProjects"
+        },
+        "attrs": {},
+        "parents": []
+    },
+    {
+        "uid": {
+            "type": "User",
+            "id": "anonymous"
+        },
+        "attrs": {
+        },
+        "parents": [
+            {
+                "type": "Group",
+                "id": "AllUsers"
+            }
+        ]
+    },
+    {
+        "uid": {
+            "type": "Project",
+            "id": "1"
+        },
+        "attrs": {
+        },
+        "parents": [
+            {
+                "type": "Group",
+                "id": "AllProjects"
+            }
+        ]
+    }
+]

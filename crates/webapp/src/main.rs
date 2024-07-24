@@ -22,22 +22,42 @@ use actix_web_httpauth::{
 };
 
 use hmac::{Hmac, Mac};
-use jwt::VerifyWithKey;
+use jwt::{VerifyWithKey,SignWithKey};
 use serde::{Deserialize, Serialize};
 use sha2::Sha256;
 
 use std::path::{Path};
 mod services;
-use services::{basic_auth, create_article, create_user};
-
+use services::{basic_auth, create_article, create_user, status};
+use services::{create_project, list_projects, get_project};
+use services::{Permission};
 
 pub struct AppState {
     db: Pool<Postgres>,
+    permission: Permission,
+    default_token: Option<String>
+}
+
+impl AppState {
+    fn fake_token() -> Option<String> {
+        let jwt_secret: Hmac<Sha256> = Hmac::new_from_slice(
+            std::env::var("JWT_SECRET")
+            .expect("JWT_SECRET must be set!")
+            .as_bytes()
+        ).unwrap();
+        let token = TokenClaims { id: 1, roles: vec!["Administrator".to_string()] };
+        token.sign_with_key(&jwt_secret).ok()
+    }
+
+    fn current_token(&self) -> Option<String> {
+        self.default_token.clone()
+    }
 }
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct TokenClaims {
     id: i32,
+    roles: Vec<String>
 }
 
 async fn validator(req: ServiceRequest, credentials: BearerAuth) -> Result<ServiceRequest, (Error, ServiceRequest)> {
@@ -85,7 +105,6 @@ async fn main() -> std::io::Result<()> {
 
     let db_type = db_url.db_type();
 
-    
     let pool: Pool<_> = match db_type {
         // DatabaseType::Sqlite => {
         //     let options = SqliteConnectOptions::from_str(&db_url)
@@ -121,9 +140,13 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         let bearer_middleware = HttpAuthentication::bearer(validator);
         App::new()
-            .app_data(Data::new(AppState { db: pool.clone() }))
+            .app_data(Data::new(AppState { db: pool.clone(), permission: Permission::default(), default_token: AppState::fake_token() }))
+            .service(status)
             .service(basic_auth)
             .service(create_user)
+            .service(list_projects)
+            .service(get_project)
+            .service(create_project)
             .service(
                 web::scope("")
                     .wrap(bearer_middleware)

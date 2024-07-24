@@ -42,6 +42,10 @@ docker-run-debug: docker-debug-build
 docker-run: docker-build
     docker run -it --env-file .env --entrypoint=/webapp -p 8080:8080 rust_app_server:latest
 
+# Verify the policies
+policies:
+    cd cedar-policies && ./run.sh && cd ..
+
 # Scan vulnerabilities with docker scout
 security:
     docker scout cves local://rust-devops-azure-sample:latest

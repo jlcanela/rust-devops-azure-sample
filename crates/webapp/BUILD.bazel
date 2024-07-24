@@ -5,13 +5,14 @@ package(default_visibility = ["//visibility:public"])
 
 rust_binary(
     name = "webapp",
-    srcs = ["src/main.rs", "src/services.rs"],
+    srcs = ["src/main.rs", "src/services/mod.rs", "src/services/articles.rs", "src/services/projects.rs", "src/services/permission.rs"],
     deps = [
         "@crates//:actix",
         "@crates//:actix-web",
         "@crates//:actix-web-httpauth",
         "@crates//:anyhow",
         "@crates//:argonautica",
+        "@crates//:cedar-policy",
         "@crates//:chrono",
         "@crates//:dotenv",
         "@crates//:hmac",
@@ -22,7 +23,7 @@ rust_binary(
         "@crates//:sqlx",
         "@crates//:tokyo",
     ],
-    data = ["//sql-migrations:migration_files"],
+    data = ["//sql-migrations:migration_files", "//cedar-policies:cedar_policies"],
 )
 
 rust_clippy(

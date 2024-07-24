@@ -1,0 +1,13 @@
+entity Group;
+entity User in [Group];
+
+entity Project in [Group] = {
+  "owned_by": User,
+  "assigned_to": Group,
+};
+
+action ViewProject appliesTo {
+  principal: [User], 
+  resource: [Project],
+};
+

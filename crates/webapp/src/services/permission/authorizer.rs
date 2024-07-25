@@ -66,8 +66,8 @@ impl Permission {
         let e = r#"[
             {
                 "uid": {
-                    "type": "Group",
-                    "id": "AllUsers"
+                    "type": "Role",
+                    "id": "User"
                 },
                 "attrs": {},
                 "parents": []
@@ -95,8 +95,8 @@ impl Permission {
         },
         "parents": [
             {
-                "type": "Group",
-                "id": "AllUsers"
+                "type": "Role",
+                "id": "User"
             }
         ]
     },
@@ -109,8 +109,8 @@ impl Permission {
         },
         "parents": [
             {
-                "type": "Group",
-                "id": "AllUsers"
+                "type": "Role",
+                "id": "User"
             }
         ]
     },
@@ -154,8 +154,10 @@ impl Permission {
                 println!("PolicyID: {}\tKey:{} \tValue:{}", reason, key, value);
             }
         }
-
         ans.decision() == Decision::Allow
     }
+
+    // pub fn policies() -> Vec<String>
+    // should use partial feature
 
 }

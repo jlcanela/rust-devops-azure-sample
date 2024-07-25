@@ -36,6 +36,7 @@ rust_library(
         "nfa-backtrack",
         "nfa-pikevm",
         "nfa-thompson",
+        "perf",
         "perf-inline",
         "perf-literal",
         "perf-literal-multisubstring",

@@ -117,7 +117,7 @@ rust_library(
         "@vendor__rand-0.8.5//:rand",
         "@vendor__sha1-0.10.6//:sha1",
         "@vendor__smallvec-1.13.2//:smallvec",
-        "@vendor__tokio-1.38.1//:tokio",
+        "@vendor__tokio-1.39.1//:tokio",
         "@vendor__tokio-util-0.7.11//:tokio_util",
         "@vendor__tracing-0.1.40//:tracing",
         "@vendor__zstd-0.13.2//:zstd",

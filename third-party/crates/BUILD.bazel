@@ -62,8 +62,20 @@ alias(
 )
 
 alias(
+    name = "cedar-policy",
+    actual = "@vendor__cedar-policy-3.2.1//:cedar_policy",
+    tags = ["manual"],
+)
+
+alias(
     name = "chrono",
     actual = "@vendor__chrono-0.4.38//:chrono",
+    tags = ["manual"],
+)
+
+alias(
+    name = "derive_more",
+    actual = "@vendor__derive_more-1.0.0-beta.6//:derive_more",
     tags = ["manual"],
 )
 

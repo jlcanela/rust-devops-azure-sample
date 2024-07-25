@@ -21,6 +21,7 @@ rust_binary(
         "@crates//:argonautica",
         "@crates//:cedar-policy",
         "@crates//:chrono",
+        "@crates//:derive_more",
         "@crates//:dotenv",
         "@crates//:hmac",
         "@crates//:jwt",

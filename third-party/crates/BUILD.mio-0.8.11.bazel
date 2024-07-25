@@ -32,7 +32,6 @@ rust_library(
         "default",
         "log",
         "net",
-        "os-ext",
         "os-poll",
     ],
     crate_root = "src/lib.rs",

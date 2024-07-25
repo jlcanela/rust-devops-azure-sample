@@ -1,15 +1,13 @@
 use crate::AppState;
 use actix_web::{
-    get, post,
-    web,
-    web::{Data, Json},
-    HttpResponse, Responder,
+    error, get, http::{header::ContentType, StatusCode}, post, web::{self, Data, Json}, HttpResponse, Responder
 };
 
 use crate::services::*;
 
 use serde::{Deserialize, Serialize};
-use sqlx::{self, FromRow, Pool, Postgres};
+use sqlx::{self, FromRow};
+use derive_more::From;
 
 #[derive(Deserialize)]
 struct CreateProjectBody {
@@ -24,9 +22,49 @@ struct Project {
     description: String,
 }
 
+pub type Result<T> = std::result::Result<T, Error>;
+
+#[allow(dead_code)]
+#[derive(Debug, From)]
+pub enum Error {
+    Unknown,
+    AuthFailed,
+    #[from]
+    Io(std::io::Error),
+    #[from]
+    Parse(std::num::ParseIntError),
+    #[from]
+    Sqlx(sqlx::Error),
+    #[from]
+    Serde(serde_json::Error)
+}
+
+impl core::fmt::Display for Error {
+	fn fmt(&self, fmt: &mut core::fmt::Formatter) -> core::result::Result<(), core::fmt::Error> {
+		write!(fmt, "{self:?}")
+	}
+}
+
+impl std::error::Error for Error {}
+
+impl error::ResponseError for Error {
+    fn error_response(&self) -> HttpResponse {
+        HttpResponse::build(self.status_code())
+            .insert_header(ContentType::html())
+            .body(self.to_string())
+    }
+
+    fn status_code(&self) -> StatusCode {
+        match *self {
+            Error::Parse(_) => StatusCode::BAD_REQUEST,
+            Error::AuthFailed => StatusCode::FORBIDDEN,
+            Error::Unknown | Error::Io(_) | Error::Sqlx(_) | Error::Serde(_) => StatusCode::INTERNAL_SERVER_ERROR,
+        }
+    }
+}
+
 #[post("/api/projects")]
 async fn create_project(state: Data<AppState>, body: Json<CreateProjectBody>) -> impl Responder {
-    dbg!(&state.permission);
     let project = body.into_inner();
 
     match sqlx::query_as::<_, Project>(
@@ -44,51 +82,39 @@ async fn create_project(state: Data<AppState>, body: Json<CreateProjectBody>) ->
 }
 
 #[get("/api/projects")]
-async fn list_projects(state: Data<AppState>) -> impl Responder {
+async fn list_projects(state: Data<AppState>) -> Result<String> {
     let _token = state.current_token();
 
-    match sqlx::query_as::<_, Project>(
+    let projects = sqlx::query_as::<_, Project>(
                 "SELECT id, name, description from projects"
     )
     .fetch_all(&state.db)
-    .await
-    {
-        Ok(projects) => HttpResponse::Ok().json(projects),
-        Err(error) => HttpResponse::InternalServerError().json(format!("{:?}", error))
-    }
+    .await?;
+
+    let json =  serde_json::to_string(&projects)?;
+    Ok(json)
 }
 
-#[get("/api/project/{id}")]
-async fn get_project(state: Data<AppState>, path: web::Path<String>) -> impl Responder {
+#[get("/api/projects/{id}")]
+async fn get_project(state: Data<AppState>, path: web::Path<String>) -> Result<String> {
+    println!("get_project");
     let project_id: String = path.into_inner();
-
-    async fn fetch(db: &Pool<Postgres>, permission: &Permission, token: Option<String>, id: String) -> Result<Project, String> {
-        let id = id.parse::<i64>().map_err(|err| err.to_string())?;
-        let project = sqlx::query_as::<_, Project>(
-                "SELECT id, name, description from projects
-                WHERE id = $1"
-            )
-            .bind(id)
-            .fetch_one(db)
-            .await
-            .map_err(|err| err.to_string())?;
-
-       
-        let permission = permission.is_authorized(token, Action::ViewProject, &project);
-        if permission {
-            Ok(project)
-        } else {
-            Err("Authorization Failed".to_string())
-        }
+    let id = project_id.parse::<i64>()?;
+    let project = sqlx::query_as::<_, Project>(
+        "SELECT id, name, description from projects
+        WHERE id = $1"
+    )
+    .bind(id)
+    .fetch_one(&state.db)
+    .await?;
     
+    let token = state.current_token();
+    if !state.permission.is_authorized(token, Action::ViewProject, &project) {
+        return Err(Error::AuthFailed)
     }
 
-    let token = state.current_token();
-    match fetch(&state.db, &state.permission, token, project_id).await {
-        Ok(id) => HttpResponse::Ok().json(id),
-        Err(err) if err == "Authorization Failed" => HttpResponse::Forbidden().json("Forbidden"),
-        Err(error) => HttpResponse::InternalServerError().json(format!("{:?}", error))
-    }
+    let json =  serde_json::to_string(&project)?;
+    Ok(json)
 }
 
 #[get("/status")]

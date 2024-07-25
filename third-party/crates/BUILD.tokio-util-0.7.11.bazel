@@ -88,6 +88,6 @@ rust_library(
         "@vendor__futures-core-0.3.30//:futures_core",
         "@vendor__futures-sink-0.3.30//:futures_sink",
         "@vendor__pin-project-lite-0.2.14//:pin_project_lite",
-        "@vendor__tokio-1.38.1//:tokio",
+        "@vendor__tokio-1.39.1//:tokio",
     ],
 )

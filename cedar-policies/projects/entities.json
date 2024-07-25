@@ -1,12 +1,98 @@
 [
     {
         "uid": {
-            "type": "Group",
-            "id": "AllUsers"
+            "type": "Role",
+            "id": "User"
         },
         "attrs": {},
         "parents": []
     },
+    {
+        "uid": {
+            "type": "Role",
+            "id": "ProjectLead"
+        },
+        "attrs": {},
+        "parents": []
+    },
+    {
+        "uid": {
+            "type": "Role",
+            "id": "Administrator"
+        },
+        "attrs": {},
+        "parents": []
+    },    
+    {
+        "uid": {
+            "type": "Role",
+            "id": "Developer"
+        },
+        "attrs": {
+        },
+        "parents": [
+            {
+                "type": "Group",
+                "id": "Project1_assignees"
+            }
+        ]
+    },    
+    {
+        "uid": {
+            "type": "User",
+            "id": "anonymous"
+        },
+        "attrs": {
+        },
+        "parents": [
+            {
+                "type": "Role",
+                "id": "User"
+            }
+        ]
+    },
+    {
+        "uid": {
+            "type": "User",
+            "id": "Sam"
+        },
+        "attrs": {
+        },
+        "parents": [
+            {
+                "type": "Role",
+                "id": "Administrator"
+            }
+        ]
+    },
+    {
+        "uid": {
+            "type": "User",
+            "id": "Paul"
+        },
+        "attrs": {
+        },
+        "parents": [
+            {
+                "type": "Role",
+                "id": "ProjectLead"
+            }
+        ]
+    },
+    {
+        "uid": {
+            "type": "User",
+            "id": "John"
+        },
+        "attrs": {
+        },
+        "parents": [
+            {
+                "type": "Role",
+                "id": "Developer"
+            }
+        ]
+    },   
     {
         "uid": {
             "type": "Group",
@@ -17,17 +103,11 @@
     },
     {
         "uid": {
-            "type": "User",
-            "id": "anonymous"
+            "type": "Group",
+            "id": "Project1_assignees"
         },
-        "attrs": {
-        },
-        "parents": [
-            {
-                "type": "Group",
-                "id": "AllUsers"
-            }
-        ]
+        "attrs": {},
+        "parents": []
     },
     {
         "uid": {
@@ -35,6 +115,18 @@
             "id": "1"
         },
         "attrs": {
+            "owner": {
+                "__entity": {     
+                    "type": "User",
+                    "id": "Paul"
+                }
+            },
+            "assigned_to": {
+                "__entity": {
+                    "type": "Group",
+                    "id": "Project1_assignees"
+                } 
+            } 
         },
         "parents": [
             {

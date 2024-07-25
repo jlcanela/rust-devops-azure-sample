@@ -80,6 +80,6 @@ rust_library(
     version = "2.10.0",
     deps = [
         "@vendor__futures-core-0.3.30//:futures_core",
-        "@vendor__tokio-1.38.1//:tokio",
+        "@vendor__tokio-1.39.1//:tokio",
     ],
 )

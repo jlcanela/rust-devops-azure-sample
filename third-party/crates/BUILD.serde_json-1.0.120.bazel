@@ -30,7 +30,10 @@ rust_library(
         ],
     ),
     crate_features = [
+        "alloc",
         "default",
+        "indexmap",
+        "preserve_order",
         "raw_value",
         "std",
     ],
@@ -85,6 +88,7 @@ rust_library(
     }),
     version = "1.0.120",
     deps = [
+        "@vendor__indexmap-2.2.6//:indexmap",
         "@vendor__itoa-1.0.11//:itoa",
         "@vendor__ryu-1.0.18//:ryu",
         "@vendor__serde-1.0.204//:serde",
@@ -99,7 +103,10 @@ cargo_build_script(
         allow_empty = False,
     ),
     crate_features = [
+        "alloc",
         "default",
+        "indexmap",
+        "preserve_order",
         "raw_value",
         "std",
     ],

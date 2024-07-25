@@ -6,12 +6,13 @@
 #     bazel run @@//third-party:vendor
 ###############################################################################
 
+load("@rules_rust//cargo:defs.bzl", "cargo_build_script")
 load("@rules_rust//rust:defs.bzl", "rust_library")
 
 package(default_visibility = ["//visibility:public"])
 
 rust_library(
-    name = "jobserver",
+    name = "ref_cast",
     srcs = glob(
         include = ["**/*.rs"],
         allow_empty = False,
@@ -30,12 +31,15 @@ rust_library(
     ),
     crate_root = "src/lib.rs",
     edition = "2021",
+    proc_macro_deps = [
+        "@vendor__ref-cast-impl-1.0.23//:ref_cast_impl",
+    ],
     rustc_flags = [
         "--cap-lints=allow",
     ],
     tags = [
         "cargo-bazel",
-        "crate-name=jobserver",
+        "crate-name=ref-cast",
         "manual",
         "noclippy",
         "norustfmt",
@@ -77,80 +81,50 @@ rust_library(
         "@rules_rust//rust/platform:x86_64-unknown-none": [],
         "//conditions:default": ["@platforms//:incompatible"],
     }),
-    version = "0.1.31",
-    deps = select({
-        "@rules_rust//rust/platform:aarch64-apple-darwin": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
+    version = "1.0.23",
+    deps = [
+        "@vendor__ref-cast-1.0.23//:build_script_build",
+    ],
+)
+
+cargo_build_script(
+    name = "_bs",
+    srcs = glob(
+        include = ["**/*.rs"],
+        allow_empty = False,
+    ),
+    crate_name = "build_script_build",
+    crate_root = "build.rs",
+    data = glob(
+        include = ["**"],
+        allow_empty = True,
+        exclude = [
+            "**/* *",
+            ".tmp_git_root/**/*",
+            "BUILD",
+            "BUILD.bazel",
+            "WORKSPACE",
+            "WORKSPACE.bazel",
         ],
-        "@rules_rust//rust/platform:aarch64-apple-ios": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:aarch64-apple-ios-sim": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:aarch64-fuchsia": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:aarch64-linux-android": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:aarch64-unknown-linux-gnu": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:aarch64-unknown-nixos-gnu": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:aarch64-unknown-nto-qnx710": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:arm-unknown-linux-gnueabi": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:armv7-linux-androideabi": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:armv7-unknown-linux-gnueabi": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:i686-apple-darwin": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:i686-linux-android": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:i686-unknown-freebsd": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:i686-unknown-linux-gnu": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:powerpc-unknown-linux-gnu": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:s390x-unknown-linux-gnu": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:x86_64-apple-darwin": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:x86_64-apple-ios": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:x86_64-fuchsia": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:x86_64-linux-android": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:x86_64-unknown-freebsd": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:x86_64-unknown-linux-gnu": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "@rules_rust//rust/platform:x86_64-unknown-nixos-gnu": [
-            "@vendor__libc-0.2.155//:libc",  # cfg(unix)
-        ],
-        "//conditions:default": [],
-    }),
+    ),
+    edition = "2021",
+    pkg_name = "ref-cast",
+    rustc_flags = [
+        "--cap-lints=allow",
+    ],
+    tags = [
+        "cargo-bazel",
+        "crate-name=ref-cast",
+        "manual",
+        "noclippy",
+        "norustfmt",
+    ],
+    version = "1.0.23",
+    visibility = ["//visibility:private"],
+)
+
+alias(
+    name = "build_script_build",
+    actual = ":_bs",
+    tags = ["manual"],
 )

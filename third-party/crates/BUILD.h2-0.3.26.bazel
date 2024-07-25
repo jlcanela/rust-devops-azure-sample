@@ -87,7 +87,7 @@ rust_library(
         "@vendor__http-0.2.12//:http",
         "@vendor__indexmap-2.2.6//:indexmap",
         "@vendor__slab-0.4.9//:slab",
-        "@vendor__tokio-1.38.1//:tokio",
+        "@vendor__tokio-1.39.1//:tokio",
         "@vendor__tokio-util-0.7.11//:tokio_util",
         "@vendor__tracing-0.1.40//:tracing",
     ],

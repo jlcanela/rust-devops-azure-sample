@@ -31,3 +31,4 @@ tokyo = "1.0.0"
 
 # DEPENDENCIES FOR PERMISSIONS
 cedar-policy = { version = "3.1.3", features = [ "partial-eval" ] }
+derive_more = { version = "1.0.0-beta", features = ["display", "error", "from"] }

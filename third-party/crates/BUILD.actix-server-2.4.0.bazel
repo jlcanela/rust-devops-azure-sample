@@ -89,7 +89,7 @@ rust_library(
         "@vendor__futures-util-0.3.30//:futures_util",
         "@vendor__mio-0.8.11//:mio",
         "@vendor__socket2-0.5.7//:socket2",
-        "@vendor__tokio-1.38.1//:tokio",
+        "@vendor__tokio-1.39.1//:tokio",
         "@vendor__tracing-0.1.40//:tracing",
     ],
 )

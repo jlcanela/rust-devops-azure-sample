@@ -23,7 +23,9 @@
         "blobs": false,
         "oci": false,
         "third-party": false,
-        "modules": false
+        "modules": false,
+        "bazel": false,
+        "cedar-policies": false
     },
     "java.configuration.updateBuildConfiguration": "interactive"
 }

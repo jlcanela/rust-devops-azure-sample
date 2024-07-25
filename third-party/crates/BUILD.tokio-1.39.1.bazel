@@ -103,10 +103,10 @@ rust_library(
         "@rules_rust//rust/platform:x86_64-unknown-none": [],
         "//conditions:default": ["@platforms//:incompatible"],
     }),
-    version = "1.38.1",
+    version = "1.39.1",
     deps = [
         "@vendor__bytes-1.6.1//:bytes",
-        "@vendor__mio-0.8.11//:mio",
+        "@vendor__mio-1.0.1//:mio",
         "@vendor__parking_lot-0.12.3//:parking_lot",
         "@vendor__pin-project-lite-0.2.14//:pin_project_lite",
     ] + select({
@@ -137,7 +137,7 @@ rust_library(
         ],
         "@rules_rust//rust/platform:aarch64-pc-windows-msvc": [
             "@vendor__socket2-0.5.7//:socket2",  # aarch64-pc-windows-msvc
-            "@vendor__windows-sys-0.48.0//:windows_sys",  # aarch64-pc-windows-msvc
+            "@vendor__windows-sys-0.52.0//:windows_sys",  # aarch64-pc-windows-msvc
         ],
         "@rules_rust//rust/platform:aarch64-unknown-linux-gnu": [
             "@vendor__libc-0.2.155//:libc",  # aarch64-unknown-linux-gnu
@@ -181,7 +181,7 @@ rust_library(
         ],
         "@rules_rust//rust/platform:i686-pc-windows-msvc": [
             "@vendor__socket2-0.5.7//:socket2",  # i686-pc-windows-msvc
-            "@vendor__windows-sys-0.48.0//:windows_sys",  # i686-pc-windows-msvc
+            "@vendor__windows-sys-0.52.0//:windows_sys",  # i686-pc-windows-msvc
         ],
         "@rules_rust//rust/platform:i686-unknown-freebsd": [
             "@vendor__libc-0.2.155//:libc",  # i686-unknown-freebsd
@@ -237,7 +237,7 @@ rust_library(
         ],
         "@rules_rust//rust/platform:x86_64-pc-windows-msvc": [
             "@vendor__socket2-0.5.7//:socket2",  # x86_64-pc-windows-msvc
-            "@vendor__windows-sys-0.48.0//:windows_sys",  # x86_64-pc-windows-msvc
+            "@vendor__windows-sys-0.52.0//:windows_sys",  # x86_64-pc-windows-msvc
         ],
         "@rules_rust//rust/platform:x86_64-unknown-freebsd": [
             "@vendor__libc-0.2.155//:libc",  # x86_64-unknown-freebsd

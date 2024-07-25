@@ -100,13 +100,13 @@ rust_library(
         ],
         "@rules_rust//rust/platform:aarch64-fuchsia": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:aarch64-linux-android": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
@@ -115,37 +115,37 @@ rust_library(
         ],
         "@rules_rust//rust/platform:aarch64-unknown-linux-gnu": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:aarch64-unknown-nixos-gnu": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:aarch64-unknown-nto-qnx710": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:arm-unknown-linux-gnueabi": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:armv7-linux-androideabi": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:armv7-unknown-linux-gnueabi": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
@@ -157,7 +157,7 @@ rust_library(
         ],
         "@rules_rust//rust/platform:i686-linux-android": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
@@ -166,61 +166,61 @@ rust_library(
         ],
         "@rules_rust//rust/platform:i686-unknown-freebsd": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:i686-unknown-linux-gnu": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:powerpc-unknown-linux-gnu": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:riscv32imc-unknown-none-elf": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:riscv64gc-unknown-none-elf": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:s390x-unknown-linux-gnu": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:thumbv7em-none-eabi": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:thumbv8m.main-none-eabi": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:wasm32-unknown-unknown": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:wasm32-wasi": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
@@ -237,13 +237,13 @@ rust_library(
         ],
         "@rules_rust//rust/platform:x86_64-fuchsia": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:x86_64-linux-android": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
@@ -252,25 +252,25 @@ rust_library(
         ],
         "@rules_rust//rust/platform:x86_64-unknown-freebsd": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:x86_64-unknown-linux-gnu": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:x86_64-unknown-nixos-gnu": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],
         "@rules_rust//rust/platform:x86_64-unknown-none": [
             "@vendor__log-0.4.22//:log",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
-            "@vendor__openssl-0.10.65//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
+            "@vendor__openssl-0.10.66//:openssl",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-probe-0.1.5//:openssl_probe",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
             "@vendor__openssl-sys-0.9.103//:openssl_sys",  # cfg(not(any(target_os = "windows", target_vendor = "apple")))
         ],

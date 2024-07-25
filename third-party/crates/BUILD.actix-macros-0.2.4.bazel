@@ -80,6 +80,6 @@ rust_proc_macro(
     version = "0.2.4",
     deps = [
         "@vendor__quote-1.0.36//:quote",
-        "@vendor__syn-2.0.71//:syn",
+        "@vendor__syn-2.0.72//:syn",
     ],
 )

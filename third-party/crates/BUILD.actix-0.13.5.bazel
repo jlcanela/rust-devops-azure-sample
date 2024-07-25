@@ -102,7 +102,7 @@ rust_library(
         "@vendor__parking_lot-0.12.3//:parking_lot",
         "@vendor__pin-project-lite-0.2.14//:pin_project_lite",
         "@vendor__smallvec-1.13.2//:smallvec",
-        "@vendor__tokio-1.38.1//:tokio",
+        "@vendor__tokio-1.39.1//:tokio",
         "@vendor__tokio-util-0.7.11//:tokio_util",
     ],
 )
